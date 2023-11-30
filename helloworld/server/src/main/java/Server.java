@@ -1,6 +1,9 @@
 import java.util.Hashtable;
 
+import Demo.BrokerPrx;
 import Demo.CallbackReceiverPrx;
+import Demo.CallbackSenderPrx;
+import Demo.SorterPrx;
 
 public class Server {
     private static int requestCount = 0;
@@ -24,14 +27,29 @@ public class Server {
             com.zeroc.Ice.Object object = new PrinterI();
             adapter.add(object, com.zeroc.Ice.Util.stringToIdentity("SimplePrinter"));
             com.zeroc.Ice.ObjectAdapter callback = communicator.createObjectAdapter("Callback.Server");
-            com.zeroc.Ice.Object callBackObject = new CallbackSenderI();
-            callback.add(callBackObject, com.zeroc.Ice.Util.stringToIdentity("CallbackSender"));
+            com.zeroc.Ice.Object callBackObject = new CallbackReceiverI();
+            callback.add(callBackObject, com.zeroc.Ice.Util.stringToIdentity("CallbackReceiver"));
             com.zeroc.Ice.ObjectAdapter sorter = communicator.createObjectAdapter("Sorter.Server");
+
+            BrokerPrx broker = Demo.BrokerPrx.checkedCast(
+                    communicator.propertyToProxy("Broker.Proxy")).ice_twoway().ice_secure(false);
+
             com.zeroc.Ice.Object sorterObject = new Sorter();
             sorter.add(sorterObject, com.zeroc.Ice.Util.stringToIdentity("Sorter"));
+            CallbackSenderPrx sender = Demo.CallbackSenderPrx.checkedCast(
+                    communicator.propertyToProxy("CallbackSender.Proxy")).ice_twoway().ice_secure(false);
+            if (sender == null) {
+                throw new Error("Invalid proxy");
+            }
+            CallbackReceiverPrx receiver = CallbackReceiverPrx.uncheckedCast(adapter.createProxy(
+                    com.zeroc.Ice.Util.stringToIdentity("callbackReceiver")));
+            SorterPrx sorterPrx = SorterPrx.uncheckedCast(adapter.createProxy(
+                    com.zeroc.Ice.Util.stringToIdentity("Sorter")));
             adapter.activate();
             callback.activate();
             sorter.activate();
+            broker.registerSorter(sorterPrx, receiver);
+
             communicator.waitForShutdown();
         }
     }

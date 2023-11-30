@@ -21,6 +21,17 @@ module Demo
         string sort(string inputFile, string outputFile);
     }
 
+    interface Worker{
+    
+    }
+
+    interface Broker{
+        void registerWorker(Worker* worker,CallbackReceiver* callbackReceiver);
+        void unregisterWorker(Worker* worker);
+        void registerSorter(Sorter* sorter,CallbackReceiver* callbackReceiver);
+        void unregisterSorter(Sorter* sorter);
+    }
+
  
 
 }

@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.InetAddress;
 
 import Demo.CallbackReceiverPrx;
 import Demo.CallbackSenderPrx;
@@ -48,11 +47,16 @@ public class Client {
             CallbackReceiverPrx receiver = CallbackReceiverPrx.uncheckedCast(adapter.createProxy(
                     com.zeroc.Ice.Util.stringToIdentity("callbackReceiver")));
             communicator.getProperties().setProperty("Ice.Default.Package", "com.zeroc.demos.Ice.sorter");
-            com.zeroc.Ice.ObjectPrx base = communicator.stringToProxy("Sorter:default -p 10001");
+            /*
+             * com.zeroc.Ice.ObjectPrx base = communicator.stringToProxy("Sorter.Proxy");
+             * 
+             * Demo.SorterPrx twoway = Demo.SorterPrx.checkedCast(base);
+             * 
+             * SorterPrx sorter = twoway.ice_twoway();
+             */
+            SorterPrx sorter = Demo.SorterPrx.checkedCast(
+                    communicator.propertyToProxy("Sorter.Proxy")).ice_twoway().ice_secure(false);
 
-            Demo.SorterPrx twoway = Demo.SorterPrx.checkedCast(base);
-
-            SorterPrx sorter = twoway.ice_twoway();
             if (sorter == null) {
                 throw new Error("Invalid proxy");
             }

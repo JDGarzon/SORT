@@ -8,7 +8,7 @@ Printer.Endpoints=tcp -p 9092
 # Only listen on the ZeroTier's LIASOn1 interface by default.
 #
 Ice.Default.Host=10.147.19.63
-Printer.ThreadPool.Size=8
-Callback.Server.Endpoints=default -h 10.147.19.63 -p 10000
-Callback.ThreadPool.Size=8
 Sorter.Server.Endpoints=default -h 10.147.19.63 -p 10001
+Broker.Proxy=Broker:default -h 10.147.19.63 -p 10002
+CallbackSender.Proxy=CallbackSender:default -h 10.147.19.63 -p 10003
+Callback.Server.Endpoints=default -h 10.147.19.63 -p 10000
