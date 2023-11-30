@@ -5,7 +5,7 @@ import Demo.CallbackReceiverPrx;
 import Demo.CallbackSenderPrx;
 import Demo.WorkerPrx;
 
-public class Main {
+public class MainWorker {
     private static int requestCount = 0;
     private static int responsesCount = 0;
     protected static Hashtable<String, CallbackReceiverPrx> users = new Hashtable<>();
@@ -13,7 +13,7 @@ public class Main {
     public static void main(String[] args) {
         java.util.List<String> extraArgs = new java.util.ArrayList<String>();
 
-        try (com.zeroc.Ice.Communicator communicator = com.zeroc.Ice.Util.initialize(args, "config.server",
+        try (com.zeroc.Ice.Communicator communicator = com.zeroc.Ice.Util.initialize(args, "config.worker",
                 extraArgs)) {
             communicator.getProperties().setProperty("Ice.Default.Package", "com.zeroc.demos.Ice.callback");
             Runtime.getRuntime().addShutdownHook(new Thread(() -> communicator.destroy()));
@@ -26,10 +26,10 @@ public class Main {
             com.zeroc.Ice.ObjectAdapter adapter = communicator.createObjectAdapter("Printer");
             com.zeroc.Ice.Object object = new PrinterI();
             adapter.add(object, com.zeroc.Ice.Util.stringToIdentity("SimplePrinter"));
-            com.zeroc.Ice.ObjectAdapter callback = communicator.createObjectAdapter("Callback.Server");
+            com.zeroc.Ice.ObjectAdapter callback = communicator.createObjectAdapter("Callback.Worker");
             com.zeroc.Ice.Object callBackObject = new CallbackReceiverI();
             callback.add(callBackObject, com.zeroc.Ice.Util.stringToIdentity("CallbackReceiver"));
-            com.zeroc.Ice.ObjectAdapter worker = communicator.createObjectAdapter("Worker.Server");
+            com.zeroc.Ice.ObjectAdapter worker = communicator.createObjectAdapter("Worker");
 
             BrokerPrx broker = Demo.BrokerPrx.checkedCast(
                     communicator.propertyToProxy("Broker.Proxy")).ice_twoway().ice_secure(false);

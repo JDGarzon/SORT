@@ -1,8 +1,13 @@
 import com.zeroc.Ice.Current;
 
+import Demo.BrokerPrx;
+import Demo.WorkerPrx;
 import sorter.ExternalSorter;
+import java.util.ArrayList;
 
 public class Sorter implements Demo.Sorter {
+
+    ArrayList<WorkerPrx> workers = new ArrayList<>();
 
     ExternalSorter sorter;
 
@@ -20,6 +25,19 @@ public class Sorter implements Demo.Sorter {
             return "Archivo no ordenado";
         }
         return "Archivo ordenado exitosamente";
+    }
+
+    @Override
+    public void launchWorkers(int n, Current current) {
+        BrokerPrx broker = Server.getBroker();
+        for (int i = 0; i < n; i++) {
+            WorkerPrx worker = broker.getWorker();
+            System.out.println("" + worker);
+            if (worker != null) {
+                workers.add(worker);
+            }
+        }
+        System.out.println("" + workers.size());
     }
 
 }

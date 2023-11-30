@@ -19,6 +19,7 @@ module Demo
     interface Sorter
     {
         string sort(string inputFile, string outputFile);
+        void launchWorkers(int n);
     }
 
     interface Worker{
@@ -30,9 +31,13 @@ module Demo
         void unregisterWorker(Worker* worker);
         void registerSorter(Sorter* sorter,CallbackReceiver* callbackReceiver);
         void unregisterSorter(Sorter* sorter);
+        Worker* getWorker();
     }
 
- 
-
+    
+    enum State{
+        FREE,
+        BUSY
+    }
 }
     

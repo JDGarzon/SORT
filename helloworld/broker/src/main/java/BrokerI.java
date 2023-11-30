@@ -14,6 +14,7 @@ public class BrokerI implements Broker {
     private static int responsesCount = 0;
     protected static Hashtable<String, CallbackReceiverPrx> users = new Hashtable<>();
     private Map<String, Pair<WorkerPrx, CallbackReceiverPrx>> workers = new Hashtable<>();
+    private Map<String, Pair<WorkerPrx, CallbackReceiverPrx>> charged = new Hashtable<>();
     private Pair<SorterPrx, CallbackReceiverPrx> sorter = null;
 
     public static void showStatistics() {
@@ -79,6 +80,20 @@ public class BrokerI implements Broker {
         if (this.sorter.getFirst().equals(sorter)) {
             this.sorter = null;
         }
+    }
+
+    @Override
+    public WorkerPrx getWorker(Current current) {
+        for (String key : workers.keySet()) {
+            Pair<WorkerPrx, CallbackReceiverPrx> pair = workers.get(key);
+            System.out.println("Worker obtenido:" + pair.getFirst());
+            if (!charged.containsKey(key)) {
+                charged.put(key, pair);
+                return pair.getFirst();
+            }
+
+        }
+        return null;
     }
 
 }

@@ -1,4 +1,4 @@
-public class Main {
+public class MainBroker {
 
     public static void main(String[] args) {
         java.util.List<String> extraArgs = new java.util.ArrayList<String>();
