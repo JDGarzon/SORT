@@ -12,7 +12,7 @@ public class PrinterI implements Demo.Printer {
     Long timeEnd;
 
     public synchronized String printString(String s, com.zeroc.Ice.Current current) {
-        MainWorker.incrementRequestCount();
+        Worker.incrementRequestCount();
         timeStart = System.nanoTime();
         String toPrint = execute(s);
         timeEnd = System.nanoTime();
@@ -149,7 +149,7 @@ public class PrinterI implements Demo.Printer {
 
     public List<String> hostNames() {
         List<String> hostnames = new ArrayList<>();
-        for (String hostname : MainWorker.users.keySet()) {
+        for (String hostname : Worker.users.keySet()) {
             System.out.println(hostname);
             hostnames.add(hostname);
         }

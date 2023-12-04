@@ -1,6 +1,7 @@
 import com.zeroc.Ice.Current;
 
 import Demo.BrokerPrx;
+import Demo.Data;
 import Demo.WorkerPrx;
 import sorter.ExternalSorter;
 import java.util.ArrayList;
@@ -32,6 +33,15 @@ public class Sorter implements Demo.Sorter {
         BrokerPrx broker = Server.getBroker();
         for (int i = 0; i < n; i++) {
             WorkerPrx worker = broker.getWorker();
+            Data data = new Data();
+            data.data = new ArrayList<>();
+            ArrayList<String> list = data.data;
+            list.add("1");
+            list.add("2");
+            list.add("3");
+            list.add("4");
+            list.add("5");
+            worker.getData(data);
             System.out.println("" + worker);
             if (worker != null) {
                 workers.add(worker);

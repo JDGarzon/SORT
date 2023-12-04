@@ -19,14 +19,14 @@ public class CallbackSenderI implements Demo.CallbackSender {
         try {
             String[] partition = request.split(":");
             String hostname = partition[0].split("@")[1];
-            MainWorker.registerUser(hostname, proxy);
+            Worker.registerUser(hostname, proxy);
             String response = partition[1];
             if (partition.length == 3) {
                 response += ":" + partition[2];
             }
             System.out.println(response);
             if ((patternToX.matcher(response).find())) {
-                proxy = MainWorker.users.get(hostname);
+                proxy = Worker.users.get(hostname);
                 response = partition[2];
                 proxy.callback(response);
             } else if ((patternListClients.matcher(response).find())) {
@@ -35,9 +35,9 @@ public class CallbackSenderI implements Demo.CallbackSender {
             } else if ((patternBc.matcher(response).find())) {
 
                 response = partition[1].split(" ")[1];
-                Set<String> keys = MainWorker.users.keySet();
+                Set<String> keys = Worker.users.keySet();
                 for (String key : keys) {
-                    proxy = MainWorker.users.get(key);
+                    proxy = Worker.users.get(key);
                     proxy.callback(response);
                 }
 
@@ -63,7 +63,7 @@ public class CallbackSenderI implements Demo.CallbackSender {
 
     public String hostNames() {
         String out = "";
-        for (String hostname : MainWorker.users.keySet()) {
+        for (String hostname : Worker.users.keySet()) {
             out += hostname + "\n";
         }
         return out;

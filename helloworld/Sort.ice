@@ -1,5 +1,8 @@
 module Demo
 {
+
+    ["java:serializable:Data"] sequence<byte> Data;
+
     interface Printer
     {
         string printString(string s);
@@ -23,6 +26,9 @@ module Demo
     }
 
     interface Worker{
+
+        idempotent void getData(Data g);
+        void shutdown();
     
     }
 
