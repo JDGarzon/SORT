@@ -34,7 +34,7 @@ module Demo
     }
 
     interface Worker{
-
+        void execute();
         idempotent void getData(Data g);
         void shutdown();
         void setMaster(Master* master);

@@ -32,7 +32,6 @@ public class Worker {
 
             BrokerPrx broker = Demo.BrokerPrx.checkedCast(
                     communicator.propertyToProxy("Broker.Proxy")).ice_twoway().ice_secure(false);
-
             com.zeroc.Ice.Object workerObject = new WorkerI();
             adapter.add(workerObject, com.zeroc.Ice.Util.stringToIdentity("Worker"));
 
@@ -47,7 +46,6 @@ public class Worker {
                     com.zeroc.Ice.Util.stringToIdentity("Worker")));
             adapter.activate();
             broker.registerWorker(workerPrx, receiver);
-
             communicator.waitForShutdown();
         }
     }
