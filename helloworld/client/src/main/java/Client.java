@@ -5,7 +5,7 @@ import java.io.InputStreamReader;
 import Demo.BrokerPrx;
 import Demo.CallbackReceiverPrx;
 import Demo.CallbackSenderPrx;
-import Demo.SorterPrx;
+import Demo.MasterPrx;
 
 public class Client {
     static Long timeStart;
@@ -63,7 +63,7 @@ public class Client {
 
             System.out.println("antes sorter");
 
-            SorterPrx sorter = broker.getSorter();
+            MasterPrx sorter = broker.getMaster();
             if (sorter == null) {
                 throw new Error("Invalid proxy");
             }

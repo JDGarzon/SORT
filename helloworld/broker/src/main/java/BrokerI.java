@@ -5,7 +5,7 @@ import java.util.Set;
 import com.zeroc.Ice.Current;
 
 import Demo.CallbackReceiverPrx;
-import Demo.SorterPrx;
+import Demo.MasterPrx;
 import Demo.WorkerPrx;
 import Demo.Broker;
 
@@ -15,7 +15,7 @@ public class BrokerI implements Broker {
     protected static Hashtable<String, CallbackReceiverPrx> users = new Hashtable<>();
     private Map<String, Pair<WorkerPrx, CallbackReceiverPrx>> workers = new Hashtable<>();
     private Map<String, Pair<WorkerPrx, CallbackReceiverPrx>> charged = new Hashtable<>();
-    private Pair<SorterPrx, CallbackReceiverPrx> sorter = null;
+    private Pair<MasterPrx, CallbackReceiverPrx> sorter = null;
 
     public static void showStatistics() {
         System.out.println("Numero de solicitudes:" + requestCount);
@@ -69,14 +69,16 @@ public class BrokerI implements Broker {
     }
 
     @Override
-    public void registerSorter(SorterPrx sorter, CallbackReceiverPrx callbackReceiver, Current current) {
+    public void registerMaster(MasterPrx sorter, CallbackReceiverPrx callbackReceiver, Current current) {
 
         this.sorter = new Pair<>(sorter, callbackReceiver);
+
         System.out.println("Sorter registrado");
+
     }
 
     @Override
-    public void unregisterSorter(SorterPrx sorter, Current current) {
+    public void unregisterMaster(MasterPrx sorter, Current current) {
         if (this.sorter.getFirst().equals(sorter)) {
             this.sorter = null;
         }
@@ -97,7 +99,7 @@ public class BrokerI implements Broker {
     }
 
     @Override
-    public SorterPrx getSorter(Current current) {
+    public MasterPrx getMaster(Current current) {
         if (sorter != null) {
             System.out.println("Sorter obtenido:" + sorter.getFirst());
             return sorter.getFirst();

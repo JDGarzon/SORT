@@ -1,11 +1,12 @@
 <state>
-  <timestamp value='1701662851981' />
+  <timestamp value='1701669654620' />
   <sourceSet name='default'>
     <source name='C:\Users\kizyz\OneDrive\Documentos\GitHub\SORT\helloworld\Sort.ice'>
+      <file name='C:\Users\kizyz\OneDrive\Documentos\GitHub\SORT\helloworld\broker\build\generated-src\Demo\Task.java' />
       <file name='C:\Users\kizyz\OneDrive\Documentos\GitHub\SORT\helloworld\broker\build\generated-src\Demo\Printer.java' />
       <file name='C:\Users\kizyz\OneDrive\Documentos\GitHub\SORT\helloworld\broker\build\generated-src\Demo\CallbackReceiver.java' />
       <file name='C:\Users\kizyz\OneDrive\Documentos\GitHub\SORT\helloworld\broker\build\generated-src\Demo\CallbackSender.java' />
-      <file name='C:\Users\kizyz\OneDrive\Documentos\GitHub\SORT\helloworld\broker\build\generated-src\Demo\Sorter.java' />
+      <file name='C:\Users\kizyz\OneDrive\Documentos\GitHub\SORT\helloworld\broker\build\generated-src\Demo\Master.java' />
       <file name='C:\Users\kizyz\OneDrive\Documentos\GitHub\SORT\helloworld\broker\build\generated-src\Demo\Worker.java' />
       <file name='C:\Users\kizyz\OneDrive\Documentos\GitHub\SORT\helloworld\broker\build\generated-src\Demo\Broker.java' />
       <file name='C:\Users\kizyz\OneDrive\Documentos\GitHub\SORT\helloworld\broker\build\generated-src\Demo\State.java' />
@@ -15,8 +16,8 @@
       <file name='C:\Users\kizyz\OneDrive\Documentos\GitHub\SORT\helloworld\broker\build\generated-src\Demo\_CallbackReceiverPrxI.java' />
       <file name='C:\Users\kizyz\OneDrive\Documentos\GitHub\SORT\helloworld\broker\build\generated-src\Demo\CallbackSenderPrx.java' />
       <file name='C:\Users\kizyz\OneDrive\Documentos\GitHub\SORT\helloworld\broker\build\generated-src\Demo\_CallbackSenderPrxI.java' />
-      <file name='C:\Users\kizyz\OneDrive\Documentos\GitHub\SORT\helloworld\broker\build\generated-src\Demo\SorterPrx.java' />
-      <file name='C:\Users\kizyz\OneDrive\Documentos\GitHub\SORT\helloworld\broker\build\generated-src\Demo\_SorterPrxI.java' />
+      <file name='C:\Users\kizyz\OneDrive\Documentos\GitHub\SORT\helloworld\broker\build\generated-src\Demo\MasterPrx.java' />
+      <file name='C:\Users\kizyz\OneDrive\Documentos\GitHub\SORT\helloworld\broker\build\generated-src\Demo\_MasterPrxI.java' />
       <file name='C:\Users\kizyz\OneDrive\Documentos\GitHub\SORT\helloworld\broker\build\generated-src\Demo\WorkerPrx.java' />
       <file name='C:\Users\kizyz\OneDrive\Documentos\GitHub\SORT\helloworld\broker\build\generated-src\Demo\_WorkerPrxI.java' />
       <file name='C:\Users\kizyz\OneDrive\Documentos\GitHub\SORT\helloworld\broker\build\generated-src\Demo\BrokerPrx.java' />

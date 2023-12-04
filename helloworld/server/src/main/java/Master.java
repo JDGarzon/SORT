@@ -1,17 +1,25 @@
 import com.zeroc.Ice.Current;
 
 import Demo.BrokerPrx;
+import Demo.MasterPrx;
+import Demo.Task;
 import Demo.WorkerPrx;
 import sorter.ExternalSorter;
 import java.util.ArrayList;
 
-public class Sorter implements Demo.Sorter {
+public class Master implements Demo.Master {
+
+    com.zeroc.Ice.ObjectAdapter adapter;
 
     ArrayList<WorkerPrx> workers = new ArrayList<>();
 
     ExternalSorter sorter;
 
-    public Sorter() {
+    public void setAdapter(com.zeroc.Ice.ObjectAdapter adapter) {
+        this.adapter = adapter;
+    }
+
+    public Master() {
         super();
         sorter = new ExternalSorter();
     }
@@ -39,12 +47,28 @@ public class Sorter implements Demo.Sorter {
             list.add("4");
             list.add("5");
             worker.getData(list);
+            MasterPrx masterPrx = MasterPrx.uncheckedCast(adapter.createProxy(
+                    com.zeroc.Ice.Util.stringToIdentity("Sorter")));
+
             System.out.println("" + worker);
             if (worker != null) {
                 workers.add(worker);
+                worker.setMaster(masterPrx);
             }
         }
         System.out.println("" + workers.size());
+    }
+
+    @Override
+    public Task getTask(Current current) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getTask'");
+    }
+
+    @Override
+    public void addPartialResult(Task d, Current current) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'addPartialResult'");
     }
 
 }

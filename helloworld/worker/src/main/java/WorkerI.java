@@ -2,7 +2,11 @@ import java.util.ArrayList;
 
 import com.zeroc.Ice.Current;
 
+import Demo.MasterPrx;
+
 public class WorkerI implements Demo.Worker {
+
+    MasterPrx master;
 
     @Override
     public void shutdown(Current current) {
@@ -16,6 +20,12 @@ public class WorkerI implements Demo.Worker {
         for (String s : list) {
             System.out.println(s);
         }
+    }
+
+    @Override
+    public void setMaster(MasterPrx master, Current current) {
+        this.master = master;
+        System.out.println("Master seteado" + master);
     }
 
 }

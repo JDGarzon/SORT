@@ -3,6 +3,11 @@ module Demo
 
     ["java:serializable:java.util.ArrayList"] sequence<byte> Data;
 
+    class Task{
+        Data data;
+        string id;
+    }
+
     interface Printer
     {
         string printString(string s);
@@ -19,33 +24,38 @@ module Demo
         void shutdown();
     }
 
-    interface Sorter
+    interface Master
     {
         string sort(string inputFile, string outputFile);
         void launchWorkers(int n);
+        idempotent Task getTask();
+        idempotent void addPartialResult(Task d);
+
     }
 
     interface Worker{
 
         idempotent void getData(Data g);
         void shutdown();
-    
+        void setMaster(Master* master);
+        
     }
 
     interface Broker{
         void registerWorker(Worker* worker,CallbackReceiver* callbackReceiver);
         void unregisterWorker(Worker* worker);
-        void registerSorter(Sorter* sorter,CallbackReceiver* callbackReceiver);
-        void unregisterSorter(Sorter* sorter);
+        void registerMaster(Master* master,CallbackReceiver* callbackReceiver);
+        void unregisterMaster(Master* master);
         Worker* getWorker();
-        Sorter* getSorter();
+        Master* getMaster();
     }
-
     
     enum State{
         FREE,
         BUSY
     }
+
+    
 
 }
     
