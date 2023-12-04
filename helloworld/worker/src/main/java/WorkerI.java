@@ -1,13 +1,21 @@
 import java.util.ArrayList;
+import java.util.List;
 
 import com.zeroc.Ice.Current;
 
 import Demo.MasterPrx;
 import Demo.Task;
+import sorter.BucketSorting;
 
 public class WorkerI implements Demo.Worker {
 
     MasterPrx master;
+    BucketSorting sortClass;
+
+    public WorkerI(){
+        super();
+        sortClass = new BucketSorting();
+    }
 
     @Override
     public void shutdown(Current current) {
@@ -36,6 +44,9 @@ public class WorkerI implements Demo.Worker {
                 Task task = master.getTask();
                 if (task != null) {
                     System.out.println("Tarea recibida");
+                    ArrayList<String> data = (ArrayList<String>)task.data;
+                    task.data = sortClass.sort(data);
+                    master.addPartialResult(task);
                 } else {
                     System.out.println("Tarea nula");
                 }

@@ -4,6 +4,7 @@ import Demo.BrokerPrx;
 import Demo.MasterPrx;
 import Demo.Task;
 import Demo.WorkerPrx;
+import sorter.BucketSorting;
 import sorter.ExternalSorter;
 import java.util.ArrayList;
 
@@ -13,7 +14,7 @@ public class Master implements Demo.Master {
 
     ArrayList<WorkerPrx> workers = new ArrayList<>();
 
-    ExternalSorter sorter;
+    BucketSorting sorter;
 
     public void setAdapter(com.zeroc.Ice.ObjectAdapter adapter) {
         this.adapter = adapter;
@@ -21,7 +22,7 @@ public class Master implements Demo.Master {
 
     public Master() {
         super();
-        sorter = new ExternalSorter();
+        sorter = new BucketSorting();
     }
 
     @Override

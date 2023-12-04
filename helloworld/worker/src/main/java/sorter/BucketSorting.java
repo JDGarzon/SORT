@@ -1,13 +1,5 @@
 package sorter;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -19,17 +11,14 @@ import java.util.concurrent.Future;
 
 public class BucketSorting {
 
-    Long timeStart;
-    Long timeEnd;
-
-    public void sort(String inputFile, String outputFile) {
+    public List<String> sort(List<String> in) {
         try {
             List<List<String>> buckets = new ArrayList<List<String>>();
             ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
             List<Future<Void>> futures = new ArrayList<>();
             int bucketsAmount = Runtime.getRuntime().availableProcessors();
 
-            buckets = split(inputFile, bucketsAmount);
+            buckets = split(in, bucketsAmount);
 
             for (List<String> bucket : buckets) {
                 Callable<Void> sortTask = () -> {
@@ -44,27 +33,24 @@ public class BucketSorting {
             }
 
             executor.shutdown();
-            merge(outputFile, buckets);
-        } catch (IOException | InterruptedException | ExecutionException e) {
+            return merge(buckets);
+        } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
+        return null;
     }
 
-    public List<List<String>> split(String inputFile, int bucketsAmount) throws IOException {
-        Path inputPath = FileSystems.getDefault().getPath(inputFile);
+    public List<List<String>> split(List<String> initialBucket, int bucketsAmount) {
 
         List<List<String>> buckets = new ArrayList<>(bucketsAmount);
         for (int i = 0; i < bucketsAmount; i++) {
             buckets.add(new ArrayList<>());
         }
 
-        try (BufferedReader reader = Files.newBufferedReader(inputPath, StandardCharsets.UTF_8)) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                int lineValue = line.charAt(0) - '0';
-                int bucketIndex = determinateBucket(lineValue, bucketsAmount);
-                buckets.get(bucketIndex).add(line);
-            }
+        for(String element:initialBucket){
+            int elementValue = element.charAt(1) - '0';
+            int bucketIndex = determinateBucket(elementValue, bucketsAmount);
+            buckets.get(bucketIndex).add(element);
         }
         return buckets;
     }
@@ -73,16 +59,13 @@ public class BucketSorting {
         return (int) Math.floor((bucketsAmount * stringValue) / 75);
     }
 
-    public void merge(String outputFile, List<List<String>> buckets) throws IOException {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile))) {
-
-            for (List<String> bucket : buckets) {
-                for (String element : bucket) {
-                    writer.write(element);
-                    writer.newLine();
-                }
+    public List<String> merge(List<List<String>> buckets) {
+        List<String> result = new ArrayList<>();
+        for (List<String> bucket : buckets) {
+            for (String element : bucket) {
+                result.add(element);
             }
-
         }
+        return result;
     }
 }
