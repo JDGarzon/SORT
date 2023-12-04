@@ -2,6 +2,7 @@
 Juan David Garzon Diaz
 Geovanny Quintero Velez
 George Trujillo
+Santiago Barraza 
 
 1. gradle build
 2. Cambiamos las ips de cada componente segun corresponda en los archivos de configuración
