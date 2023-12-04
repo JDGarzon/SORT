@@ -4,8 +4,7 @@
 
 import com.zeroc.Ice.Current;
 
-public final class CallbackReceiverI implements Demo.CallbackReceiver
-{
+public final class CallbackReceiverI implements Demo.CallbackReceiver {
 
     @Override
     public void callback(String response, Current current) {

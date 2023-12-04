@@ -1,7 +1,7 @@
 module Demo
 {
 
-    ["java:serializable:Data"] sequence<byte> Data;
+    ["java:serializable:java.util.ArrayList"] sequence<byte> Data;
 
     interface Printer
     {
@@ -45,5 +45,6 @@ module Demo
         FREE,
         BUSY
     }
+
 }
     

@@ -42,7 +42,6 @@ public class CallbackSenderI implements Demo.CallbackSender {
                 }
 
             } else {
-                response = PrinterI.execute(request);
                 proxy.callback(response);
             }
 
