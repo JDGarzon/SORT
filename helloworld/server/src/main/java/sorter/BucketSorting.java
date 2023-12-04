@@ -22,16 +22,6 @@ public class BucketSorting {
     static Long timeStart;
     static Long timeEnd;
 
-    public static void main(String[] args) {
-        timeStart = System.nanoTime();
-        String path = "server\\src\\main\\java\\data\\datos.txt";
-        String out = "server\\src\\main\\java\\data\\out.txt";
-        int buckets = 8;
-        sort(path, out, buckets);
-        timeEnd = System.nanoTime();
-        System.out.println("Tiempo de ejecucion: " + (timeEnd - timeStart) / 1000000 + " ms");
-    }
-
     public static void sort(String inputFile, String outputFile, int bucketsAmount) {
         try {
             List<List<String>> buckets = new ArrayList<List<String>>();
