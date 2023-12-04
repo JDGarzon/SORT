@@ -47,9 +47,7 @@ public class WorkerI implements Demo.Worker {
                     ArrayList<String> data = (ArrayList<String>)task.data;
                     task.data = sortClass.sort(data);
                     master.addPartialResult(task);
-                } else {
-                    System.out.println("Tarea nula");
-                }
+                } 
             }
         }
     }
