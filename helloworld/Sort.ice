@@ -38,6 +38,7 @@ module Demo
         void registerSorter(Sorter* sorter,CallbackReceiver* callbackReceiver);
         void unregisterSorter(Sorter* sorter);
         Worker* getWorker();
+        Sorter* getSorter();
     }
 
     

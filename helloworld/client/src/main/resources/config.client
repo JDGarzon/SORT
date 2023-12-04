@@ -13,6 +13,6 @@ Printer.Proxy=SimplePrinter:tcp -p 9099
 # Only listen on the ZeroTier's LIASOn1 interface by default.
 #
 Ice.Default.Host=10.147.19.63
-CallbackSender.Proxy=CallbackSender:default -h 10.147.19.63 -p 10000
+CallbackSender.Proxy=CallbackSender:default -h 10.147.19.63 -p 10003
 Callback.Client.Endpoints=default -h 10.147.19.63
-Sorter.Proxy=Sorter:default -h 10.147.19.63 -p 10001
+Broker.Proxy=Broker:default -h 10.147.19.63 -p 10002

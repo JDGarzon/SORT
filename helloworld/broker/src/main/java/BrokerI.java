@@ -96,4 +96,13 @@ public class BrokerI implements Broker {
         return null;
     }
 
+    @Override
+    public SorterPrx getSorter(Current current) {
+        if (sorter != null) {
+            System.out.println("Sorter obtenido:" + sorter.getFirst());
+            return sorter.getFirst();
+        }
+        return null;
+    }
+
 }

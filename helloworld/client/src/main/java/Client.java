@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import Demo.BrokerPrx;
 import Demo.CallbackReceiverPrx;
 import Demo.CallbackSenderPrx;
 import Demo.SorterPrx;
@@ -33,17 +34,20 @@ public class Client {
              * }
              */
 
-            CallbackSenderPrx sender = Demo.CallbackSenderPrx.checkedCast(
-                    communicator.propertyToProxy("CallbackSender.Proxy")).ice_twoway().ice_secure(false);
-            if (sender == null) {
-                throw new Error("Invalid proxy");
-            }
+            /*
+             * CallbackSenderPrx sender = Demo.CallbackSenderPrx.checkedCast(
+             * communicator.propertyToProxy("CallbackSender.Proxy")).ice_twoway().ice_secure
+             * (false);
+             * if (sender == null) {
+             * throw new Error("Invalid proxy");
+             * }
+             */
             String toPrint = "";
             BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
             com.zeroc.Ice.ObjectAdapter adapter = communicator.createObjectAdapter("Callback.Client");
             adapter.add(new CallbackReceiverI(), com.zeroc.Ice.Util.stringToIdentity("callbackReceiver"));
             adapter.activate();
-
+            System.out.println("antes receiver");
             CallbackReceiverPrx receiver = CallbackReceiverPrx.uncheckedCast(adapter.createProxy(
                     com.zeroc.Ice.Util.stringToIdentity("callbackReceiver")));
             communicator.getProperties().setProperty("Ice.Default.Package", "com.zeroc.demos.Ice.sorter");
@@ -54,13 +58,16 @@ public class Client {
              * 
              * SorterPrx sorter = twoway.ice_twoway();
              */
-            SorterPrx sorter = Demo.SorterPrx.checkedCast(
-                    communicator.propertyToProxy("Sorter.Proxy")).ice_twoway().ice_secure(false);
+            BrokerPrx broker = Demo.BrokerPrx.checkedCast(
+                    communicator.propertyToProxy("Broker.Proxy")).ice_twoway().ice_secure(false);
 
+            System.out.println("antes sorter");
+
+            SorterPrx sorter = broker.getSorter();
             if (sorter == null) {
                 throw new Error("Invalid proxy");
             }
-
+            System.out.println("antes while");
             while (!toPrint.equalsIgnoreCase("exit")) {
 
                 try {
@@ -97,7 +104,7 @@ public class Client {
                 }
 
             }
-            sender.shutdown();
+            // sender.shutdown();
         }
     }
 
