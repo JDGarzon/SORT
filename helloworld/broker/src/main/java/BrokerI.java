@@ -72,9 +72,7 @@ public class BrokerI implements Broker {
     public void registerMaster(MasterPrx sorter, CallbackReceiverPrx callbackReceiver, Current current) {
 
         this.sorter = new Pair<>(sorter, callbackReceiver);
-
         System.out.println("Sorter registrado");
-
     }
 
     @Override

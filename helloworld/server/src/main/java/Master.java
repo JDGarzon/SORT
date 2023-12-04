@@ -1,7 +1,6 @@
 import com.zeroc.Ice.Current;
 
 import Demo.BrokerPrx;
-import Demo.MasterPrx;
 import Demo.Task;
 import Demo.WorkerPrx;
 import sorter.ExternalSorter;
@@ -47,13 +46,10 @@ public class Master implements Demo.Master {
             list.add("4");
             list.add("5");
             worker.getData(list);
-            MasterPrx masterPrx = MasterPrx.uncheckedCast(adapter.createProxy(
-                    com.zeroc.Ice.Util.stringToIdentity("Sorter")));
 
             System.out.println("" + worker);
             if (worker != null) {
                 workers.add(worker);
-                worker.setMaster(masterPrx);
             }
         }
         System.out.println("" + workers.size());
