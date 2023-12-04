@@ -14,7 +14,7 @@ public class Generator {
         int n = scanner.nextInt();
 
         // Generar el nombre del archivo
-        String nombreArchivo = "client\\src\\main\\java\\data\\caracteres_al_azar.txt";
+        String nombreArchivo = "server\\src\\main\\java\\data\\datos.txt";
 
         // Verificar si el archivo ya existe
         File archivo = new File(nombreArchivo);
