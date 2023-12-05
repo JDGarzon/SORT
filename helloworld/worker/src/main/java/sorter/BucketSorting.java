@@ -11,16 +11,16 @@ import java.util.concurrent.Future;
 
 public class BucketSorting {
 
-    public List<String> sort(List<String> in) {
+    public ArrayList<String> sort(ArrayList<String> in) {
         try {
-            List<List<String>> buckets = new ArrayList<List<String>>();
+            ArrayList<ArrayList<String>> buckets = new ArrayList<ArrayList<String>>();
             ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
-            List<Future<Void>> futures = new ArrayList<>();
+            ArrayList<Future<Void>> futures = new ArrayList<>();
             int bucketsAmount = Runtime.getRuntime().availableProcessors();
 
             buckets = split(in, bucketsAmount);
 
-            for (List<String> bucket : buckets) {
+            for (ArrayList<String> bucket : buckets) {
                 Callable<Void> sortTask = () -> {
                     Collections.sort(bucket);
                     return null;
@@ -40,9 +40,9 @@ public class BucketSorting {
         return null;
     }
 
-    public List<List<String>> split(List<String> initialBucket, int bucketsAmount) {
+    public ArrayList<ArrayList<String>> split(ArrayList<String> initialBucket, int bucketsAmount) {
 
-        List<List<String>> buckets = new ArrayList<>(bucketsAmount);
+        ArrayList<ArrayList<String>> buckets = new ArrayList<>(bucketsAmount);
         for (int i = 0; i < bucketsAmount; i++) {
             buckets.add(new ArrayList<>());
         }
@@ -59,9 +59,9 @@ public class BucketSorting {
         return (int) Math.floor((bucketsAmount * stringValue) / 75);
     }
 
-    public List<String> merge(List<List<String>> buckets) {
-        List<String> result = new ArrayList<>();
-        for (List<String> bucket : buckets) {
+    public ArrayList<String> merge(ArrayList<ArrayList<String>> buckets) {
+        ArrayList<String> result = new ArrayList<>();
+        for (ArrayList<String> bucket : buckets) {
             for (String element : bucket) {
                 result.add(element);
             }

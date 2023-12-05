@@ -7,8 +7,8 @@ Printer.Endpoints=tcp -p 11000
 #
 # Only listen on the ZeroTier's LIASOn1 interface by default.
 #
-Ice.Default.Host=10.147.19.63
-Worker.Endpoints=default -h 10.147.19.63 -p 10004
-Broker.Proxy=Broker:default -h 10.147.19.63 -p 10002
-CallbackSender.Proxy=CallbackSender:default -h 10.147.19.63 -p 10003
-Callback.Worker.Endpoints=default -h 10.147.19.63 -p 10007
+Ice.Default.Host=localhost
+Worker.Endpoints=default -h * -p 10004
+Broker.Proxy=Broker:default -h 10.147.19.78 -p 10002
+CallbackSender.Proxy=CallbackSender:default -h 10.147.19.78 -p 10003
+Callback.Worker.Endpoints=default -h * -p 10007

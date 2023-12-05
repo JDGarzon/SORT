@@ -28,7 +28,7 @@ public class TaskThread extends Thread {
             bucket = spliter.split(inputFile, actualBucket, maxBuckets);
             Task task = new Task();
             task.data = bucket;
-            task.id = actualBucket;
+            task.id = actualBucket+"";
             master.addTask(task);
         }
         

@@ -11,7 +11,7 @@ import java.util.List;
 
 public class Spliter {
     
-    public ArrayList<String> split(String inputFile, int actualBucket, int maxBuckets) throws IOException {
+    public ArrayList<String> split(String inputFile, int actualBucket, int maxBuckets) {
         Path inputPath = FileSystems.getDefault().getPath(inputFile);
 
         ArrayList<String> bucket = new ArrayList<>();
@@ -24,6 +24,8 @@ public class Spliter {
                 if(bucketIndex == actualBucket)
                     bucket.add(line);
             }
+        } catch (Exception e) {
+            // TODO: handle exception
         }
         return bucket;
     }

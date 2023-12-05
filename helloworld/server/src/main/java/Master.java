@@ -18,6 +18,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Queue;
+import java.util.LinkedList;
 
 public class Master implements Demo.Master {
 
@@ -31,9 +32,12 @@ public class Master implements Demo.Master {
     String out;
     String in;
     int numBucket;
-    Queue tasks;
+    Queue<Task> tasks;
     boolean isFinished;
     int resultsSubmited;
+    long start;
+    long end;
+
 
     public void setAdapter(com.zeroc.Ice.ObjectAdapter adapter) {
         this.adapter = adapter;
@@ -43,7 +47,7 @@ public class Master implements Demo.Master {
         super();
         sorter = new BucketSorting();
         spliter = new Spliter();
-        tasks = new Queue<Task>();
+        tasks = new LinkedList<Task>();
     }
 
     @Override
@@ -55,16 +59,18 @@ public class Master implements Demo.Master {
         in = "server\\src\\main\\java\\data\\" + inputFile;
         try {
             ArrayList<ArrayList<String>> buckets;
-            
+            setStart(System.currentTimeMillis());
             if(!willBeDistributed(inputFile)){
-                sorter.sort(in, out);
+                for(TaskThread thread:threads){
+                    thread = new TaskThread(in, spliter, this);
+                    thread.start();
+                }
             }else{
                 for(TaskThread thread:threads){
                     thread = new TaskThread(in, spliter, this);
                     thread.start();
                 }
             }
-            
         } catch (Exception e) {
             e.printStackTrace();
             return "Archivo no ordenado";
@@ -88,6 +94,7 @@ public class Master implements Demo.Master {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     @Override
@@ -108,10 +115,16 @@ public class Master implements Demo.Master {
             System.out.println("" + worker);
             if (worker != null) {
                 workers.add(worker);
-                worker.setMaster(sorterPrx);
-                worker.execute();
+                worker.setMaster(sorterPrx); 
             }
         }
+
+        for(WorkerPrx w : workers){
+            new Thread(() -> {
+                w.execute();
+            }).start();
+        }
+
         System.out.println("" + workers.size());
     }
 
@@ -132,11 +145,18 @@ public class Master implements Demo.Master {
                 writer.write(s);
                 writer.newLine();
             }
+
+        }catch (Exception e) {
+            e.printStackTrace();
         }
         setResultsSubmited(getResultsSubmited() + 1);
         if (getResultsSubmited() == getMaxBuckets()){
             setIsFinished(true);
             merge();
+        }
+        File file = new File("block"+(getResultsSubmited()-1));
+        if(file.exists()){
+            file.delete();
         }
     }
 
@@ -148,7 +168,11 @@ public class Master implements Demo.Master {
 
         BufferedReader[] blockReaders = new BufferedReader[totalBlocks];
         for (int i = 0; i < totalBlocks; i++) {
-            blockReaders[i] = new BufferedReader(new FileReader("block" + i));
+            try{
+            blockReaders[i] = new BufferedReader(new FileReader("block" + i));}
+            catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(out))) {
@@ -161,6 +185,10 @@ public class Master implements Demo.Master {
                 }
 
             }
+            setEnd(System.currentTimeMillis());
+            System.out.println(getEnd()-getStart());
+        }catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -177,7 +205,7 @@ public class Master implements Demo.Master {
     }
 
     public int getMaxBuckets(){
-        return workers.size();
+        return 75;
     }
 
     public int getResultsSubmited(){
@@ -200,4 +228,19 @@ public class Master implements Demo.Master {
         return isFinished;
     }
 
+    public void setStart(long time){
+        this.start = time;
+    }
+
+    public long getStart(){
+        return start;
+    }
+
+    public void setEnd(long time){
+        this.end = time;
+    }
+
+    public long getEnd(){
+        return end;
+    }
 }
